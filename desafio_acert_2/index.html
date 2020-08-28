@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        var config = { 
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'no-cors',
+                    method: "POST",
+                    body: JSON.stringify({
+                        token: "7e8230ae820bd5f3d4f022489415dbb1",
+                        usuario: "2143",
+                        senha: "123456"
+                    })
+                };
+                   
+        fetch('https://apiweb-enwzofr76a-uc.a.run.app/api/login', config).then(response => {
+            console.log(response) 
+            return response.json()
+            
+        }).then(data => {
+            const divElement = document.getElementById("content")
+            divElement.innerHTML = generateContent(null)
+            console.log(data)
+        })
+        .catch(error => {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+        });
+
+
+        const generateContent = (data) => {
+            return `<h4>Test</h4>`;
+        }
+    </script>
+</body>
+</html>
+
+
