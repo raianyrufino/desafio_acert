@@ -11,9 +11,13 @@
         var config = { 
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'POST',
+                        'Access-Control-Allow-Headers': '*',
+                        'Access-Control-Allow-Credentials': 'true',
                     },
-                    mode: 'no-cors',
+                    mode: 'cors',
                     method: "POST",
                     body: JSON.stringify({
                             token: "7e8230ae820bd5f3d4f022489415dbb1",
@@ -21,18 +25,14 @@
                             senha: "123456"
                         }),
                 };
-                   
-        fetch('https://apiweb-enwzofr76a-uc.a.run.app/api/login', config).then(response => {
-            const divElement = document.getElementById("content");
-
-            if (!response.ok) {
-                divElement.innerHTML = generateContent('["Unauthorized."]');
-            }
+  
+        fetch('https://apiweb-enwzofr76a-uc.a.run.app/api/login', config)
+        .then(response => {
+            response.json().then(function(e) {
+                const divElement = document.getElementById("content");
+                divElement.innerHTML = generateContent(e);
+            }); 
         })
-        .catch(error => {
-            console.log('There has been a problem with your fetch operation: ' + error.message);
-        });
-
         const generateContent = (data) => {
             return data;
         }
