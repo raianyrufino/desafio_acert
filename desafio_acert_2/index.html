@@ -32,7 +32,10 @@
                 const divElement = document.getElementById("content");
                 divElement.innerHTML = generateContent(e);
             }); 
-        })
+        }).catch(error => {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+        });
+        
         const generateContent = (data) => {
             return data;
         }
