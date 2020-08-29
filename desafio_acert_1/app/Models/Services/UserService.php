@@ -1,29 +1,29 @@
 <?php
 
 namespace App\Models\Services;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use App\Exceptions\BusinessException;
 
 class UserService
 {
     public function get($name)
     {   
-        try {
-            $client = new Client(['base_uri' => config('github.api_url')]);
+        $url = config('github.api_url').'users/'.$name;
 
-            $response = $client->request('GET', 'users/' . $name);
-
-            if ($response->getStatusCode() === 200) {
-                
-                $body = $response->getBody();
-
-                $content = json_decode($body->getContents());
-                
-                return $content;
-            }
-        } catch (GuzzleException $e) {
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["User-Agent: request"]);
+        
+        $user = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            
+        if ($code == 200) {
+            return json_decode($user);
+        } else {
             throw new BusinessException("User not found!", 404);
-        }
+        } 
+
+        curl_close($ch);
     }
 }
